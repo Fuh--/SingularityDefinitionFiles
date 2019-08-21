@@ -1,0 +1,34 @@
+Bootstrap: docker
+From: ubuntu:16.04
+
+
+%environment
+  export CXX='g++-7'
+  export CC='gcc-7'
+
+%post
+  export CXX='g++-7'
+  export CC='gcc-7'
+  
+  apt update
+  apt install -y gcc \
+                 g++ \
+                 python3-dev \
+                 python3-setuptools \
+                 python3-matplotlib 
+                 \cmake 
+                 \git 
+                 \software-properties-common
+  add-apt-repository ppa:ubuntu-toolchain-r/test
+  apt update
+  apt install -y gcc-7 \
+                 g++-7
+ 
+  cd /usr/local
+
+  git clone https://github.com/qulacs/qulacs.git
+  cd qulacs
+
+  python3 setup.py install
+  
+%runscript
