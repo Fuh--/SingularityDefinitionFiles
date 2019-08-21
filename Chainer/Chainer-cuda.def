@@ -1,0 +1,25 @@
+Bootstrap: docker
+From: nvidia/cuda:10.0-cudnn7-devel-centos7
+
+
+%environment
+  export CUDA_HOME="/usr/local/cuda"
+  export PATH="${CUDA_HOME}/bin:$PATH"
+  
+
+%post
+  export CUDA_HOME="/usr/local/cuda"
+  export PATH="${CUDA_HOME}/bin:$PATH"
+
+  yum install -y epel-release
+
+  yum install -y tk-devel \
+                 python36-devel \
+                 python36-pip
+
+
+  ln -s ${CUDA_HOME}/lib64/stubs/libcuda.so ${CUDA_HOME}/lib64/libcuda.so
+ 
+  python36 -m pip install cupy chainer matplotlib
+
+%runscript
